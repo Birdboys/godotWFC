@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://p6vhkgx3a0bs"]
+
+[ext_resource type="Script" path="res://scripts/wfc_rule_generator.gd" id="1_qo0lv"]
+
+[node name="ruleGenerator" type="Node"]
+script = ExtResource("1_qo0lv")

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://ctujqv6lhd3lr"]
+
+[ext_resource type="Script" path="res://scripts/block_wfc_test.gd" id="1_yn0kt"]
+
+[node name="blockWFCTest" type="Node2D"]
+script = ExtResource("1_yn0kt")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+
+[node name="Line2D" type="Line2D" parent="."]

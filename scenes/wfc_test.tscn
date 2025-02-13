@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://coqrcfixlk8kf"]
+
+[ext_resource type="Script" path="res://scripts/wfc_test.gd" id="1_0op1m"]
+
+[node name="wfcTest" type="Node2D"]
+script = ExtResource("1_0op1m")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Line2D" type="Line2D" parent="."]
