@@ -12,8 +12,8 @@ func _ready() -> void:
 	ms = ModelSynthesizer.new()
 	ms.getInfo()
 	ms.initModelSynthesis(dim)
-	#var ms_grid = ms.doWaveFunctionCollapse()
-	#updateSprites(ms_grid)
+	var ms_grid = ms.doModelSynthesis()
+	updateSprites(ms_grid)
 	#var elapsed_time = (Time.get_ticks_msec()-current_time)/1000.0
 	#print("TIME ELAPSED:",elapsed_time)
 
@@ -60,6 +60,4 @@ func getTexture(id):
 		WFCInfo.tile_type.ROAD_E: return load("res://assets/road_e_tile.png")
 		WFCInfo.tile_type.ROAD_R: return load("res://assets/road_r_tile.png")
 		WFCInfo.tile_type.ROAD_T: return load("res://assets/road_t_tile.png")
-		#WFCInfo.tile_type.GRASS_R: return load("res://assets/grass_r_tile.png")
-		#WFCInfo.tile_type.GRASS_L: return load("res://assets/grass_l_tile.png")
 		_: return load("res://assets/blank_tile.png")

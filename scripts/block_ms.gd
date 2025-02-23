@@ -1,19 +1,18 @@
-class_name BlockWFC
+class_name BlockMS
 
-var wfc : WaveFunctionCollapser
+var ms : ModelSynthesizer
 var block_dim : Vector2
 var block_overlap : int
 var current_pos := Vector2.ZERO
 var tile_grid := {}
 var blocks : Array[Vector2]
 
-func initBlockWFC(dim, ov:=1):
+func initBlockMS(dim, ov:=1):
 	block_dim = dim
 	block_overlap = ov
-	wfc = WaveFunctionCollapser.new()
-	wfc.getInfo()
-	#wfc.initWaveFunctionCollapse(dim)
-	wfc.initWaveFunctionCollapse(dim + Vector2.ONE * 2)
+	ms = ModelSynthesizer.new()
+	ms.getInfo()
+	ms.initModelSynthesis(dim + Vector2.ONE * 2)
 	initBlock(current_pos)
 	collapseBlock(current_pos)
 	
@@ -25,13 +24,14 @@ func initBlock(block_coord: Vector2):
 			if tile_coord not in tile_grid:
 				var new_tile = WFCTile.new()
 				tile_grid[tile_coord] = new_tile
-				new_tile.initPossibilities(wfc.all_tile_types)
+				new_tile.initPossibilities(ms.all_tile_types)
 
 func collapseBlock(block_coord: Vector2):
 	var b = getExtendedBlock(block_coord)
 	var offset = b.keys()[0]
-	await wfc.putBlockToGrid(b, -offset)
-	var collapsed_block = await wfc.doWaveFunctionCollapse()
+	await ms.putBlockToGrid(b, -offset)
+	ms.printGrid()
+	var collapsed_block = await ms.doModelSynthesis()
 	for t in collapsed_block:
 		var tile_coord = (t-Vector2.ONE) + block_coord * (block_dim - Vector2.ONE * block_overlap)
 		if tile_coord in tile_grid:
@@ -57,7 +57,7 @@ func getExtendedBlock(block_coord: Vector2):
 					b[tile_coord + Vector2.ONE] = tile_grid[tile_coord]
 				else:
 					var new_tile = WFCTile.new()
-					new_tile.initPossibilities(wfc.all_tile_types)
+					new_tile.initPossibilities(ms.all_tile_types)
 					b[tile_coord + Vector2.ONE] = new_tile
 			else:
 				if x == -1 or y == -1 or x == block_dim.x or y == block_dim.x:
@@ -67,7 +67,7 @@ func getExtendedBlock(block_coord: Vector2):
 					b[tile_coord + Vector2.ONE] = new_tile
 				else:
 					var new_tile = WFCTile.new()
-					new_tile.initPossibilities(wfc.all_tile_types)
+					new_tile.initPossibilities(ms.all_tile_types)
 					b[tile_coord + Vector2.ONE] = new_tile
 				
 	return b

@@ -18,10 +18,13 @@ func initModelSynthesis(size):
 	initTiles(grid_size)
 
 func doModelSynthesis():
+	print("DOING MODEL SYNTHESIS")
 	for y in range(grid_size.y):
 		for x in range(grid_size.x):
 			var next_coord = Vector2(x, y)
-			grid[next_coord].collapse()
+			print("TILE:%s POSSIBILITIES:%s" % [next_coord, grid[next_coord].all_possibilities])
+			#if not grid[next_coord].is_collapsed:
+			grid[next_coord].collapseWeighted()
 			populate(next_coord)
 			#populateRec(next_coord)
 	return grid
@@ -59,18 +62,6 @@ func initTiles(size: Vector2):
 func checkAllCollapsed():
 	return not grid.values().any(func(tile:WFCTile): return not tile.is_collapsed)
 
-func getLowEntropyTile():
-	var lowest_entropy = INF
-	var lowest_entropy_tiles : Array[Vector2] = []
-	for c in grid:
-		if grid[c].is_collapsed: continue
-		var tile_entropy = grid[c].getEntropy()
-		if tile_entropy < lowest_entropy and tile_entropy > 0:
-			lowest_entropy = tile_entropy
-			lowest_entropy_tiles = [c]
-		if tile_entropy == lowest_entropy:
-			lowest_entropy_tiles.append(c)
-	return lowest_entropy_tiles.pick_random()
 
 func populate(tile_coord: Vector2):
 	var cur_coords = tile_coord
@@ -128,3 +119,21 @@ func checkNeighborRule(t, n, d):
 func restart():
 	initModelSynthesis(grid_size)
 	doModelSynthesis()
+
+func putBlockToGrid(block:Dictionary, offset:Vector2):
+	grid = {}
+	for coord in block:
+		grid[coord+offset] = block[coord]
+		
+	for t in grid:
+		if grid[t].is_collapsed:
+			populate(t)
+	return
+
+func printGrid():
+	for y in range(grid_size.y):
+		var row = []
+		for x in range(grid_size.x):
+			row.append(len(grid[Vector2(x, y)].all_possibilities))
+		print(row)
+	print("\n")

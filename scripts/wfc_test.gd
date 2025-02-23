@@ -1,6 +1,6 @@
 extends Node2D
 
-var dim = Vector2(20, 20)
+var dim = Vector2(10, 10)
 var wfc : WaveFunctionCollapser
 var sprite_grid := {}
 # Called when the node enters the scene tree for the first time.
